@@ -1,16 +1,40 @@
 <!doctype html>
 <html>
     <head>
-        <title>Search</title>
+        <title>Gigalist - youtube</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <div id="buttons">
-            <label>
-                <input id="query" value='emicida' type="text"/><button id="search-button" onclick="search()">Buscar</button>
-            </label>
+        <nav class="navbar">
+            <header>
+                <h1>Bem vindo ao GigaList</h1>
+            </header>
+        </nav>
+        <div class="container">
+            <form id="search" action="#">
+                <div class="row">
+                    <div class="col s12 m6 l8">
+                        <input id="query" value='emicida' type="text"/>
+                    </div>
+                    <div class="col s12 m6 l4">
+                        <button class="waves-effect waves-light btn" type="submit">Buscar</button>
+                    </div>
+                </div>
+            </form>
+            <div id="search-container" class="row"></div>
         </div>
-        <div id="search-container"></div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
         <script src="search.js"></script>
     </body>
 </html>
