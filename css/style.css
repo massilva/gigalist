@@ -28,3 +28,15 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+#preloader-modal{
+  top: 1%;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+  text-align: center;
+}
+
+#preloader-modal .modal-content{
+  margin-top: 11rem;
+}

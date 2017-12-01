@@ -1,7 +1,9 @@
 $(document).ready(function () {
+    $('.modal').modal();
     function search() {
-        var url, q = $('#query').val(), len, i, template;
+        var url, q = $('#query').val(), len, i, template, $preloader = $('#preloader-modal');
         url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&q=' + q + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
+        $preloader.modal('open');
         $.get(url,
             function (r) {
                 var $image, $card, items = r.items, image, snippet, $cardImage, $cardContent, $play;
@@ -21,6 +23,7 @@ $(document).ready(function () {
                     $card.append($cardImage).append($cardContent);
                     $('#search-container').append($('<div class="col s12 m6 l4"></div>').append($card));
                 }
+                $preloader.modal('close');
             }
         );
     }
