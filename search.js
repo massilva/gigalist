@@ -28,12 +28,14 @@ $(document).ready(function () {
                     event.target.playVideo();
                 },
                 'onStateChange': function (event) {
+                    var $videoCard = $("#" + event.target.getVideoData().video_id);
                     if (event.data === 0) {
                         event.target.nextVideo();
                     } else if (event.data === 3 || event.data === 5) {
                         event.target.playVideo();
                         $('.playing').addClass('played').removeClass('playing');
-                        $('#' + event.target.getVideoData().video_id).removeClass('played').addClass('playing');
+                        $("body, html").animate({scrollTop: $videoCard.offset().top - 12}, 600);
+                        $videoCard.removeClass('played').addClass('playing');
                     }
                 }
             }
