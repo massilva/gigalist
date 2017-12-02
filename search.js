@@ -13,6 +13,11 @@ $(document).ready(function () {
             return args.map(function (array) { return array[i]; });
         });
     }
+    function playVideoAt(i) {
+        return function () {
+            window.player.playVideoAt(i);
+        };
+    }
     function playVideo(ids) {
         return new YT.Player('player', {
             height: '405',
@@ -47,7 +52,7 @@ $(document).ready(function () {
         }
         for (i = 0; i < len; ++i) {
             videoId = orderedResults[i].id.videoId;
-            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>');
+            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
             $image = $('<img></img>');
             $card = $('<div id="' + videoId + '" class="card"></div>');
             $cardImage = $('<div class="card-image"></div>');
@@ -61,7 +66,7 @@ $(document).ready(function () {
             $('#search-container').append($('<div class="col s12 m6 l4"></div>').append($card));
             ids.push(videoId);
         }
-        playVideo(ids);
+        window.player = playVideo(ids);
     }
     function get(queries, i, len, maxResults, results) {
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
