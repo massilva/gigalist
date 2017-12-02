@@ -1,8 +1,9 @@
-/*global Materialize, YT*/
+/*global window, Materialize, YT*/
 /*jslint nomen: true*/
 /*jslint plusplus: true */
 $(document).ready(function () {
     'use strict';
+    var $player = $('#container-player');
     function zip(args) {
         var shortest;
         shortest = !args.length ? [] : args.reduce(function (a, b) {
@@ -12,35 +13,43 @@ $(document).ready(function () {
             return args.map(function (array) { return array[i]; });
         });
     }
-    function playVideo(videoId) {
+    function playVideo(ids) {
         return new YT.Player('player', {
             height: '405',
             width: '100%',
-            videoId: videoId,
             events: {
-                'onReady': function (event) { event.target.playVideo(); },
+                'onReady': function (event) {
+                    console.log('onReady', event);
+                    event.target.cuePlaylist(ids);
+                    event.target.playVideo();
+                },
                 'onStateChange': function (event) {
+                    console.log('stateChange', event.data);
                     if (event.data === 0) {
-                        console.log('Próximo vídeo');
+                        event.target.nextVideo();
+                    } else if (event.data === 3 || event.data === 5) {
+                        event.target.playVideo();
+                        $('.playing').removeClass('playing');
+                        $('#' + event.target.getVideoData().video_id).addClass('playing');
                     }
                 }
             }
         });
     }
     function processResults(results) {
-        var i, player, orderedResults, len, image, snippet, $image, $card, $cardImage, $cardContent, $play;
+        var i, ids = [], orderedResults, len, image, snippet, videoId, $image, $card, $cardImage, $cardContent, $play;
         $('#search-container').empty();
         $('#preloader-modal').modal('close');
         orderedResults = zip(results).reduce(function (a, b) { return a.concat(b); });
-        player = playVideo(orderedResults[0].id.videoId);
         len = orderedResults.length;
-        if (!$('#player').is(':visible')) {
-            $('#player').show('slow');
+        if (!$player.is(':visible')) {
+            $player.show('slow');
         }
         for (i = 0; i < len; ++i) {
+            videoId = orderedResults[i].id.videoId;
             $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>');
             $image = $('<img></img>');
-            $card = $('<div id="' + orderedResults[i].id.videoId + '" class="card"></div>');
+            $card = $('<div id="' + videoId + '" class="card"></div>');
             $cardImage = $('<div class="card-image"></div>');
             $cardContent = $('<div class="card-content"></div>');
             snippet = orderedResults[i].snippet;
@@ -50,7 +59,9 @@ $(document).ready(function () {
             $cardContent.append(snippet.title);
             $card.append($cardImage).append($cardContent);
             $('#search-container').append($('<div class="col s12 m6 l4"></div>').append($card));
+            ids.push(videoId);
         }
+        playVideo(ids);
     }
     function get(queries, i, len, maxResults, results) {
         var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
@@ -73,7 +84,7 @@ $(document).ready(function () {
         $('#preloader-modal').modal('open');
         get(queries, 0, queries.length, parseInt(50 / queries.length, 10), []);
     }
-    $('#player').hide();
+    $player.hide();
     $('.modal').modal();
     $('form#search').on('submit', search);
 });

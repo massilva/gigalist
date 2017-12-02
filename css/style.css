@@ -5,6 +5,7 @@ body{
 .navbar{
     height: 15rem;
     margin-bottom: 1rem;
+    background-color: #f90;
 }
 
 .navbar header {
@@ -39,4 +40,9 @@ body{
 
 #preloader-modal .modal-content{
   margin-top: 11rem;
+}
+
+.playing{
+  border: 0.2rem solid #f90;
+  margin: 0.5rem 0 0.6rem 0;
 }
