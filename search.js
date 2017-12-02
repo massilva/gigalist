@@ -1,9 +1,8 @@
-/*global Materialize*/
+/*global Materialize, YT*/
 /*jslint nomen: true*/
 /*jslint plusplus: true */
 $(document).ready(function () {
     'use strict';
-    $('.modal').modal();
     function zip(args) {
         var shortest;
         shortest = !args.length ? [] : args.reduce(function (a, b) {
@@ -13,18 +12,37 @@ $(document).ready(function () {
             return args.map(function (array) { return array[i]; });
         });
     }
+    function playVideo(videoId) {
+        return new YT.Player('player', {
+            height: '405',
+            width: '100%',
+            videoId: videoId,
+            events: {
+                'onReady': function (event) { event.target.playVideo(); },
+                'onStateChange': function (event) {
+                    if (event.data === 0) {
+                        console.log('Próximo vídeo');
+                    }
+                }
+            }
+        });
+    }
     function processResults(results) {
-        var i, j, orderedResults = zip(results), len = orderedResults.length, items, itemsLen, image, snippet, $image, $card, $cardImage, $cardContent, $play;
+        var i, j, player, orderedResults = zip(results), len = orderedResults.length, items, itemsLen, image, snippet, $image, $card, $cardImage, $cardContent, $play;
         $('#search-container').empty();
         $('#preloader-modal').modal('close');
+        player = playVideo(orderedResults[0][0].id.videoId);
+        if (!$('#player').is(':visible')) {
+            $('#player').show('slow');
+        }
         for (j = 0; j < len; ++j) {
             items = orderedResults[j];
             itemsLen = items.length;
             for (i = 0; i < itemsLen; ++i) {
                 $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>');
                 $image = $('<img></img>');
-                $card = $('<div class="card"></div>');
-                $cardImage = $('<div class="card-image"><div>');
+                $card = $('<div id="' + items[i].id.videoId + '" class="card"></div>');
+                $cardImage = $('<div class="card-image"></div>');
                 $cardContent = $('<div class="card-content"></div>');
                 snippet = items[i].snippet;
                 image = snippet.thumbnails.medium;
@@ -57,5 +75,7 @@ $(document).ready(function () {
         $('#preloader-modal').modal('open');
         get(queries, 0, queries.length, parseInt(50 / queries.length, 10), []);
     }
+    $('#player').hide();
+    $('.modal').modal();
     $('form#search').on('submit', search);
 });
