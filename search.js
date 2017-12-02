@@ -50,7 +50,7 @@ $(document).ready(function () {
         }
         for (i = 0; i < len; ++i) {
             videoId = orderedResults[i].id.videoId;
-            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red" href="#' + $player.attr('id') + '"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
+            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
             $image = $('<img></img>');
             $card = $('<div id="' + videoId + '" class="card"></div>');
             $cardImage = $('<div class="card-image"></div>');
