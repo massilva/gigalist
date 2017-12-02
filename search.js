@@ -28,30 +28,28 @@ $(document).ready(function () {
         });
     }
     function processResults(results) {
-        var i, j, player, orderedResults = zip(results), len = orderedResults.length, items, itemsLen, image, snippet, $image, $card, $cardImage, $cardContent, $play;
+        var i, player, orderedResults, len, image, snippet, $image, $card, $cardImage, $cardContent, $play;
         $('#search-container').empty();
         $('#preloader-modal').modal('close');
-        player = playVideo(orderedResults[0][0].id.videoId);
+        orderedResults = zip(results).reduce(function (a, b) { return a.concat(b); });
+        player = playVideo(orderedResults[0].id.videoId);
+        len = orderedResults.length;
         if (!$('#player').is(':visible')) {
             $('#player').show('slow');
         }
-        for (j = 0; j < len; ++j) {
-            items = orderedResults[j];
-            itemsLen = items.length;
-            for (i = 0; i < itemsLen; ++i) {
-                $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>');
-                $image = $('<img></img>');
-                $card = $('<div id="' + items[i].id.videoId + '" class="card"></div>');
-                $cardImage = $('<div class="card-image"></div>');
-                $cardContent = $('<div class="card-content"></div>');
-                snippet = items[i].snippet;
-                image = snippet.thumbnails.medium;
-                $image.attr({src: image.url, height: image.height, width: image.width});
-                $cardImage.append($image).append($play);
-                $cardContent.append(snippet.title);
-                $card.append($cardImage).append($cardContent);
-                $('#search-container').append($('<div class="col s12 m6 l4"></div>').append($card));
-            }
+        for (i = 0; i < len; ++i) {
+            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>');
+            $image = $('<img></img>');
+            $card = $('<div id="' + orderedResults[i].id.videoId + '" class="card"></div>');
+            $cardImage = $('<div class="card-image"></div>');
+            $cardContent = $('<div class="card-content"></div>');
+            snippet = orderedResults[i].snippet;
+            image = snippet.thumbnails.medium;
+            $image.attr({src: image.url, height: image.height, width: image.width});
+            $cardImage.append($image).append($play);
+            $cardContent.append(snippet.title);
+            $card.append($cardImage).append($cardContent);
+            $('#search-container').append($('<div class="col s12 m6 l4"></div>').append($card));
         }
     }
     function get(queries, i, len, maxResults, results) {
