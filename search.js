@@ -69,7 +69,7 @@ $(document).ready(function () {
         window.player = playVideo(ids);
     }
     function get(queries, i, len, maxResults, results) {
-        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
+        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&videoEmbeddable=true&type=video&safeSearch=strict&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
         $.get(url).done(function (r) {
             results.push(r.items);
             i++;
