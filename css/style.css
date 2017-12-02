@@ -46,3 +46,11 @@ body{
   border: 0.2rem solid #f90;
   margin: 0.5rem 0 0.6rem 0;
 }
+
+.played{
+  -webkit-filter: grayscale(100%);
+   -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+     -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+}

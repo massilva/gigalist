@@ -24,18 +24,16 @@ $(document).ready(function () {
             width: '100%',
             events: {
                 'onReady': function (event) {
-                    console.log('onReady', event);
                     event.target.cuePlaylist(ids);
                     event.target.playVideo();
                 },
                 'onStateChange': function (event) {
-                    console.log('stateChange', event.data);
                     if (event.data === 0) {
                         event.target.nextVideo();
                     } else if (event.data === 3 || event.data === 5) {
                         event.target.playVideo();
-                        $('.playing').removeClass('playing');
-                        $('#' + event.target.getVideoData().video_id).addClass('playing');
+                        $('.playing').addClass('played').removeClass('playing');
+                        $('#' + event.target.getVideoData().video_id).removeClass('played').addClass('playing');
                     }
                 }
             }
@@ -52,7 +50,7 @@ $(document).ready(function () {
         }
         for (i = 0; i < len; ++i) {
             videoId = orderedResults[i].id.videoId;
-            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
+            $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red" href="#' + $player.attr('id') + '"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
             $image = $('<img></img>');
             $card = $('<div id="' + videoId + '" class="card"></div>');
             $cardImage = $('<div class="card-image"></div>');
