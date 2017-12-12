@@ -54,3 +54,43 @@ body{
      -o-filter: grayscale(100%);
   filter: grayscale(100%);
 }
+
+.fab-title{
+  padding: 10px 8px;
+  font-size: 1rem;
+  z-index: 2000;
+  background-color: #000;
+  border-radius: 2px;
+  color: #fff;
+  min-height: 36px;
+  line-height: 120%;
+  opacity: 1;
+  position: absolute;
+  text-align: center;
+  max-width: calc(100% - 4px);
+  overflow: hidden;
+  pointer-events: none;
+  bottom: -18px;
+}
+
+.fab-title.left{
+  right: 86px;
+}
+
+.fab-title.right{
+  left: 86px;
+}
+
+.controls .halfway-fab,
+.controls .fab-title{
+  position: fixed;
+  z-index: 2;
+}
+
+.controls .halfway-fab{
+  bottom: 10rem !important;
+}
+
+.controls .fab-title{
+  bottom: 10.5rem !important;
+}

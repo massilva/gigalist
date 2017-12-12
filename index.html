@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Gigalist Player</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,6 +13,9 @@
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="robots" content="noindex,nofollow"/>
+        <meta name="Description" content="Author: Marcos A. de S. Silva; Description: Player de vídeo do Youtube customizado"/>
+        <meta name="keywords" content="youtube, youtube player, música, gigalist, gingalist, gigalist player, gigalista, player multiartista"/>
     </head>
     <body>
         <div id="preloader-modal" class="modal">
@@ -52,10 +56,20 @@
             <div id="container-player">
               <div id="player"></div>
             </div>
-            <div id="iip">
-
+            <div id="iip"></div>
+            <div class="controls">
+              <div class="fab-title right">Anterior</div>
+              <a id="previous-video" class="btn-floating halfway-fab btn-large waves-effect waves-light red left" title="Anterior">
+                <i class="material-icons">keyboard_arrow_left</i>
+              </a>
             </div>
             <div id="search-container" class="row"></div>
+            <div class="controls">
+              <div class="fab-title left">Próximo</div>
+              <a id="next-video" class="btn-floating halfway-fab btn-large waves-effect waves-light red" title="Próximo">
+                <i class="material-icons">keyboard_arrow_right</i>
+              </a>
+            </div>
         </div>
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>

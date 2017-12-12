@@ -1,4 +1,4 @@
-/*global window, Materialize, YT*/
+/*global window, Materialize, YT, $, document*/
 /*jslint nomen: true*/
 /*jslint plusplus: true */
 $(document).ready(function () {
@@ -92,4 +92,14 @@ $(document).ready(function () {
     $player.hide();
     $('.modal').modal();
     $('form#search').on('submit', search);
+    $('#next-video').on('click', function () {
+        if (window.player.nextVideo) {
+            window.player.nextVideo();
+        }
+    });
+    $('#previous-video').on('click', function () {
+        if (window.player.previousVideo) {
+            window.player.previousVideo();
+        }
+    });
 });
