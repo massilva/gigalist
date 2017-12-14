@@ -3,7 +3,12 @@
 /*jslint plusplus: true */
 $(document).ready(function () {
     'use strict';
-    var $player = $('#container-player');
+    var $player = $('#container-player'), $controls = $(".controls");
+    function show($element) {
+        if (!$element.is(':visible')) {
+            $element.show('slow');
+        }
+    }
     function zip(args) {
         var shortest;
         shortest = !args.length ? [] : args.reduce(function (a, b) {
@@ -28,14 +33,16 @@ $(document).ready(function () {
                     event.target.playVideo();
                 },
                 'onStateChange': function (event) {
-                    var $videoCard = $("#" + event.target.getVideoData().video_id);
+                    var $videoCard;
                     if (event.data === 0) {
                         event.target.nextVideo();
                     } else if (event.data === 3 || event.data === 5) {
                         event.target.playVideo();
+                        $videoCard = $("#" + event.target.getVideoData().video_id);
                         $('.playing').addClass('played').removeClass('playing');
                         $("body, html").animate({scrollTop: $videoCard.offset().top - 12}, 600);
                         $videoCard.removeClass('played').addClass('playing');
+                        show($controls);
                     }
                 }
             }
@@ -47,9 +54,7 @@ $(document).ready(function () {
         $('#preloader-modal').modal('close');
         orderedResults = zip(results).reduce(function (a, b) { return a.concat(b); });
         len = orderedResults.length;
-        if (!$player.is(':visible')) {
-            $player.show('slow');
-        }
+        show($player);
         for (i = 0; i < len; ++i) {
             videoId = orderedResults[i].id.videoId;
             $play = $('<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>').on('click', playVideoAt(i));
@@ -90,6 +95,7 @@ $(document).ready(function () {
         get(queries, 0, queries.length, parseInt(50 / queries.length, 10), []);
     }
     $player.hide();
+    $controls.hide();
     $('.modal').modal();
     $('form#search').on('submit', search);
     $('#next-video').on('click', function () {

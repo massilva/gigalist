@@ -81,6 +81,10 @@ body{
   left: 86px;
 }
 
+.controls{
+    display: none;
+}
+
 .controls .halfway-fab,
 .controls .fab-title{
   position: fixed;
