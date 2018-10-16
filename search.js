@@ -99,6 +99,7 @@ $(document).ready(function () {
         url = new URL(window.location.href);
         q = url.searchParams.get('q') || '';
         last = url.searchParams.get('last') || 0;
+        $('#query').val(q);
         if (q.length) {
             search(q);
         }
