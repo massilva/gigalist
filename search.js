@@ -3,7 +3,7 @@
 /*jslint plusplus: true */
 $(document).ready(function () {
     'use strict';
-    var $player = $('#container-player'), $controls = $(".controls");
+    var $player = $('#container-player'), $controls = $(".controls"), last = 0, url, q;
     function show($element) {
         if (!$element.is(':visible')) {
             $element.show('slow');
@@ -34,9 +34,7 @@ $(document).ready(function () {
                 },
                 'onStateChange': function (event) {
                     var $videoCard;
-                    if (event.data === 0) {
-                        event.target.nextVideo();
-                    } else if (event.data === 3 || event.data === 5) {
+                    if (event.data === 3 || event.data === 5) {
                         event.target.playVideo();
                         $videoCard = $("#" + event.target.getVideoData().video_id);
                         $('.playing').addClass('played').removeClass('playing');
@@ -74,7 +72,7 @@ $(document).ready(function () {
         window.player = playVideo(ids);
     }
     function get(queries, i, len, maxResults, results) {
-        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&videoEmbeddable=true&type=video&safeSearch=strict&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
+        var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&chart=mostPopular&videoSyndicated=true&videoEmbeddable=true&type=video&safeSearch=strict&maxResults=' + maxResults + '&q=' + encodeURI(queries[i].trim()) + '&key=AIzaSyC8XzaFTF3rAW1q_58Fi2majFEyu1smzUY';
         $.get(url).done(function (r) {
             results.push(r.items);
             i++;
@@ -88,24 +86,32 @@ $(document).ready(function () {
             processResults(results);
         });
     }
-    function search() {
-        var queries, q = $('#query').val();
+    function search(q) {
+        var queries;
         queries = q.split(';');
         $('#preloader-modal').modal('open');
-        get(queries, 0, queries.length, parseInt(50 / queries.length, 10), []);
+        get(queries, 0, queries.length, parseInt(48 / queries.length, 10), []);
     }
-    $player.hide();
-    $controls.hide();
-    $('.modal').modal();
-    $('form#search').on('submit', search);
-    $('#next-video').on('click', function () {
-        if (window.player.nextVideo) {
-            window.player.nextVideo();
+    function main () {
+        $player.hide();
+        $controls.hide();
+        $('.modal').modal();
+        url = new URL(window.location.href);
+        q = url.searchParams.get('q');
+        last = url.searchParams.get('last') || 0;
+        if (q.length) {
+            search(q);
         }
-    });
-    $('#previous-video').on('click', function () {
-        if (window.player.previousVideo) {
-            window.player.previousVideo();
-        }
-    });
+        $('#next-video').on('click', function () {
+            if (window.player.nextVideo) {
+                window.player.nextVideo();
+            }
+        });
+        $('#previous-video').on('click', function () {
+            if (window.player.previousVideo) {
+                window.player.previousVideo();
+            }
+        });
+    }
+    main();
 });
