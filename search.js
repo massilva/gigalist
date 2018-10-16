@@ -97,7 +97,7 @@ $(document).ready(function () {
         $controls.hide();
         $('.modal').modal();
         url = new URL(window.location.href);
-        q = url.searchParams.get('q');
+        q = url.searchParams.get('q') || '';
         last = url.searchParams.get('last') || 0;
         if (q.length) {
             search(q);
